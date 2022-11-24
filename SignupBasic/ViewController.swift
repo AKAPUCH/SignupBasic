@@ -26,7 +26,24 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        let idTextField : UITextField = UITextField()
+        let pwTextField : UITextField = UITextField()
+        view.addSubview(idTextField)
+        view.addSubview(pwTextField)
+        idTextField.translatesAutoresizingMaskIntoConstraints = false
+        pwTextField.translatesAutoresizingMaskIntoConstraints = false
+        
+        let centerX : NSLayoutConstraint
+        centerX = idTextField.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+       centerX.isActive = true
+        idTextField.placeholder = "Id"
+        pwTextField.placeholder = "Password"
+        self.LoginId = idTextField
+        
     }
+    
+    
 
 
 }
