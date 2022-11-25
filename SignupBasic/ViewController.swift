@@ -9,39 +9,84 @@ import UIKit
 
 
 
+
 class ViewController: UIViewController {
     
-    @IBOutlet weak var LoginId: UITextField! //초기상태에서는 뷰가 로딩되지 않았기 때문에 변경이 가능하도록 변수(var)로 선언
+    let idText : UITextField = {
+        let idSettings = UITextField()
+        idSettings.placeholder = "ID"
+        idSettings.textAlignment = .left
+        idSettings.borderStyle = .roundedRect
+        return idSettings
+    }()
     
-    @IBOutlet weak var LoginPw: UITextField!
+    let pwText : UITextField = {
+       let pwSettings = UITextField()
+        pwSettings.placeholder = "Password"
+        pwSettings.textAlignment = .left
+        pwSettings.borderStyle = .roundedRect
+        return pwSettings
+    }()
+
     
+    let mainImage : UIImageView = {
+        let imageSettings = UIImageView()
+        imageSettings.image = UIImage(named: "beemo")
+        return imageSettings
+    }()
     
-    
-    @IBAction func DoSignUp(_ sender : UIButton) {
-        guard let secondViewController = self.storyboard?.instantiateViewController(withIdentifier: "SecondViewController") else {return}
+    let signUpButton : UIButton = {
+        let lButtonSettings = UIButton()
+        lButtonSettings.setTitle("Sign Up", for: .normal)
+        lButtonSettings.setTitleColor(.systemRed, for: .normal)
+        lButtonSettings.setTitleColor(.systemIndigo, for: .selected)
         
-        self.present(secondViewController, animated: true)
-    }
+        return lButtonSettings
+    }()
+    
+    let signInButton : UIButton = {
+       let sButtonSettings = UIButton()
+        sButtonSettings.setTitle("Sign In", for: .normal)
+        sButtonSettings.setTitleColor(.systemBlue, for: .normal)
+        return sButtonSettings
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        view.backgroundColor = .systemYellow
+        view.addSubview(idText)
+        view.addSubview(pwText)
+        view.addSubview(mainImage)
+        view.addSubview(signUpButton)
+        view.addSubview(signInButton)
+        mainImage.translatesAutoresizingMaskIntoConstraints = false
+        mainImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30).isActive = true
+        mainImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        mainImage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 100).isActive = true
+        mainImage.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50).isActive = true
         
-        let idTextField : UITextField = UITextField()
-        let pwTextField : UITextField = UITextField()
-        view.addSubview(idTextField)
-        view.addSubview(pwTextField)
-        idTextField.translatesAutoresizingMaskIntoConstraints = false
-        pwTextField.translatesAutoresizingMaskIntoConstraints = false
+        idText.translatesAutoresizingMaskIntoConstraints = false
+        idText.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        idText.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        idText.topAnchor.constraint(equalTo: mainImage.bottomAnchor, constant: 30 ).isActive = true
         
-        let centerX : NSLayoutConstraint
-        centerX = idTextField.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
-       centerX.isActive = true
-        idTextField.placeholder = "Id"
-        pwTextField.placeholder = "Password"
-        self.LoginId = idTextField
+        pwText.translatesAutoresizingMaskIntoConstraints = false
+        pwText.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        pwText.topAnchor.constraint(equalTo: idText.bottomAnchor, constant: 10).isActive = true
+        pwText.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        
+        signInButton.translatesAutoresizingMaskIntoConstraints = false
+        signInButton.topAnchor.constraint(equalTo: pwText.bottomAnchor, constant: 20).isActive = true
+        signInButton.leadingAnchor.constraint(equalTo: pwText.leadingAnchor, constant: 20).isActive = true
+        
+        signUpButton.translatesAutoresizingMaskIntoConstraints = false
+        signUpButton.topAnchor.constraint(equalTo: pwText.bottomAnchor, constant: 20).isActive = true
+        signUpButton.leadingAnchor.constraint(equalTo: signInButton.trailingAnchor, constant: 30).isActive = true
+        signUpButton.trailingAnchor.constraint(equalTo: pwText.trailingAnchor, constant: 20).isActive = true
         
     }
+    
+    
     
     
 
