@@ -10,7 +10,7 @@ import UIKit
 
 
 
-class ViewController: UIViewController {
+class FirstViewController: UIViewController {
     
     let idText : UITextField = {
         let idSettings = UITextField()
@@ -21,13 +21,13 @@ class ViewController: UIViewController {
     }()
     
     let pwText : UITextField = {
-       let pwSettings = UITextField()
+        let pwSettings = UITextField()
         pwSettings.placeholder = "Password"
         pwSettings.textAlignment = .left
         pwSettings.borderStyle = .roundedRect
         return pwSettings
     }()
-
+    
     
     let mainImage : UIImageView = {
         let imageSettings = UIImageView()
@@ -40,31 +40,47 @@ class ViewController: UIViewController {
         lButtonSettings.setTitle("Sign Up", for: .normal)
         lButtonSettings.setTitleColor(.systemRed, for: .normal)
         lButtonSettings.setTitleColor(.systemIndigo, for: .selected)
-        
+        lButtonSettings.addTarget(nil, action: #selector(pressButton(_ :)), for: .touchUpInside)
         return lButtonSettings
     }()
     
     let signInButton : UIButton = {
-       let sButtonSettings = UIButton()
+        let sButtonSettings = UIButton()
         sButtonSettings.setTitle("Sign In", for: .normal)
         sButtonSettings.setTitleColor(.systemBlue, for: .normal)
         return sButtonSettings
     }()
     
+    @IBAction func pressButton(_ sender : UIButton) {
+        let secondView = SecondViewController()
+        self.navigationController?.pushViewController(secondView, animated: true)
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemYellow
-        view.addSubview(idText)
-        view.addSubview(pwText)
+        addObject()
+    }
+    
+    func addObject() {
+        addImage()
+        addText()
+        addButton()
+    }
+    
+    func addImage() {
         view.addSubview(mainImage)
-        view.addSubview(signUpButton)
-        view.addSubview(signInButton)
         mainImage.translatesAutoresizingMaskIntoConstraints = false
         mainImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30).isActive = true
         mainImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         mainImage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 100).isActive = true
-        mainImage.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50).isActive = true
         
+    }
+    
+    func addText() {
+        view.addSubview(idText)
+        view.addSubview(pwText)
         idText.translatesAutoresizingMaskIntoConstraints = false
         idText.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         idText.widthAnchor.constraint(equalToConstant: 200).isActive = true
@@ -74,22 +90,26 @@ class ViewController: UIViewController {
         pwText.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         pwText.topAnchor.constraint(equalTo: idText.bottomAnchor, constant: 10).isActive = true
         pwText.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        
+    }
+    
+    func addButton() {
+        view.addSubview(signInButton)
+        view.addSubview(signUpButton)
         signInButton.translatesAutoresizingMaskIntoConstraints = false
         signInButton.topAnchor.constraint(equalTo: pwText.bottomAnchor, constant: 20).isActive = true
         signInButton.leadingAnchor.constraint(equalTo: pwText.leadingAnchor, constant: 20).isActive = true
-        
         signUpButton.translatesAutoresizingMaskIntoConstraints = false
         signUpButton.topAnchor.constraint(equalTo: pwText.bottomAnchor, constant: 20).isActive = true
         signUpButton.leadingAnchor.constraint(equalTo: signInButton.trailingAnchor, constant: 30).isActive = true
         signUpButton.trailingAnchor.constraint(equalTo: pwText.trailingAnchor, constant: 20).isActive = true
+    }
+    
+    func navigationItemSetting(){
         
     }
     
     
     
     
-
-
 }
 
