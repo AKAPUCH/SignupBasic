@@ -18,20 +18,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         //guard let _ = (scene as? UIWindowScene) else { return }
         
-//        guard let windowScene = (scene as? UIWindowScene) else { return }
-//        window = UIWindow(windowScene: windowScene) // SceneDelegate의 프로퍼티에 설정해줌
-//        let mainViewController = ViewController() // 맨 처음 보여줄 ViewController
-//
-//        window?.rootViewController = mainViewController
-//        window?.makeKeyAndVisible()
-        //네비게이션 컨트롤러 설정
         guard let scene = (scene as? UIWindowScene) else { return }
-        window = UIWindow( frame: scene.coordinateSpace.bounds)
-        window?.windowScene = scene
-        let rootViewController = FirstViewController()
-        let navigationController = UINavigationController(rootViewController: rootViewController)
-        window?.rootViewController = navigationController
+        window = UIWindow(windowScene: scene) // SceneDelegate의 프로퍼티에 설정해줌
+        let mainViewController = UINavigationController(rootViewController: viewController())//첫화면
+        window?.rootViewController = mainViewController
         window?.makeKeyAndVisible()
+        //네비게이션 컨트롤러 설정
+//        guard let scene = (scene as? UIWindowScene) else { return }
+//        window = UIWindow( frame: scene.coordinateSpace.bounds)
+//        window?.windowScene = scene
+//        let rootViewController = FirstViewController()
+//        let navigationController = UINavigationController(rootViewController: rootViewController)
+//        window?.rootViewController = navigationController
+//        window?.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

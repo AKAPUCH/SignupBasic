@@ -10,7 +10,7 @@ import UIKit
 
 
 
-class FirstViewController: UIViewController {
+class viewController: UIViewController {
     
     let idText : UITextField = {
         let idSettings = UITextField()
@@ -37,10 +37,12 @@ class FirstViewController: UIViewController {
     
     let signUpButton : UIButton = {
         let lButtonSettings = UIButton()
+        lButtonSettings.translatesAutoresizingMaskIntoConstraints = false
         lButtonSettings.setTitle("Sign Up", for: .normal)
         lButtonSettings.setTitleColor(.systemRed, for: .normal)
         lButtonSettings.setTitleColor(.systemIndigo, for: .selected)
-        lButtonSettings.addTarget(nil, action: #selector(pressButton(_ :)), for: .touchUpInside)
+        lButtonSettings.addTarget(self, action: #selector(pressButton), for: .touchUpInside)
+        
         return lButtonSettings
     }()
     
@@ -52,8 +54,12 @@ class FirstViewController: UIViewController {
     }()
     
     @IBAction func pressButton(_ sender : UIButton) {
-        let secondView = SecondViewController()
-        self.navigationController?.pushViewController(secondView, animated: true)
+        //guard let viewController = storyboard?.instantiateViewController(identifier: "SecondViewController")
+        //else {return}
+        let viewController = SecondViewController()
+        viewController.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        present(viewController, animated: true, completion: nil)
+
     }
     
     
@@ -98,15 +104,12 @@ class FirstViewController: UIViewController {
         signInButton.translatesAutoresizingMaskIntoConstraints = false
         signInButton.topAnchor.constraint(equalTo: pwText.bottomAnchor, constant: 20).isActive = true
         signInButton.leadingAnchor.constraint(equalTo: pwText.leadingAnchor, constant: 20).isActive = true
-        signUpButton.translatesAutoresizingMaskIntoConstraints = false
+        //signUpButton.translatesAutoresizingMaskIntoConstraints = false
         signUpButton.topAnchor.constraint(equalTo: pwText.bottomAnchor, constant: 20).isActive = true
         signUpButton.leadingAnchor.constraint(equalTo: signInButton.trailingAnchor, constant: 30).isActive = true
         signUpButton.trailingAnchor.constraint(equalTo: pwText.trailingAnchor, constant: 20).isActive = true
     }
     
-    func navigationItemSetting(){
-        
-    }
     
     
     

@@ -24,6 +24,7 @@ class SecondViewController: UIViewController {
     let profile : UIImageView = {
         let imageSettings = UIImageView()
         imageSettings.image = UIImage(named: "rabbits")
+        imageSettings.contentMode = .scaleToFill
         return imageSettings
     }()
     
@@ -66,7 +67,7 @@ class SecondViewController: UIViewController {
         buttonSettings.setTitle("취소", for: .normal)
         buttonSettings.setTitleColor(.systemRed, for: .normal)
         buttonSettings.contentHorizontalAlignment = .center
-        buttonSettings.addTarget(nil, action: #selector(pressCancelButton(_ :)), for: .touchUpInside)
+        buttonSettings.addTarget(self, action: #selector(pressCancelButton), for: .touchUpInside)
         buttonSettings.translatesAutoresizingMaskIntoConstraints = false
         return buttonSettings
     }()
@@ -81,7 +82,7 @@ class SecondViewController: UIViewController {
     }()
     
     @IBAction func pressCancelButton(_ sender : UIButton) {
-        self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true)
     }
     
     
@@ -118,7 +119,7 @@ class SecondViewController: UIViewController {
         profile.translatesAutoresizingMaskIntoConstraints = false
         profile.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 20).isActive = true
         profile.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 15).isActive = true
-        profile.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        profile.widthAnchor.constraint(equalToConstant: 150).isActive = true
         profile.heightAnchor.constraint(equalToConstant: 150).isActive = true
     }
     
