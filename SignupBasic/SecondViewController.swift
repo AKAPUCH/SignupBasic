@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SecondViewController: UIViewController {
+class SecondViewController: UIViewController, UITextViewDelegate {
     
     
     let stacks : UIStackView = {
@@ -34,6 +34,7 @@ class SecondViewController: UIViewController {
         //textSettings.widthAnchor.constraint(equalToConstant: 200).isActive = true
         textSettings.borderStyle = .roundedRect
         textSettings.textAlignment = .left
+        textSettings.addTarget(self, action: #selector(DetectChange(_ :)), for: .editingChanged)
         return textSettings
     }()
     let profilePw : UITextField = {
@@ -42,6 +43,7 @@ class SecondViewController: UIViewController {
         textSettings.translatesAutoresizingMaskIntoConstraints = false
         textSettings.textAlignment = .left
         textSettings.isSecureTextEntry = true
+        textSettings.addTarget(self, action: #selector(DetectChange(_ :)), for: .editingChanged)
         return textSettings
     }()
     
@@ -51,6 +53,7 @@ class SecondViewController: UIViewController {
         textSettings.translatesAutoresizingMaskIntoConstraints = false
         textSettings.textAlignment = .left
         textSettings.isSecureTextEntry = true
+        textSettings.addTarget(self, action: #selector(DetectChange(_ :)), for: .editingChanged)
         return textSettings
     }()
     
@@ -75,14 +78,24 @@ class SecondViewController: UIViewController {
     let nextButton : UIButton = {
         let buttonSettings = UIButton()
         buttonSettings.setTitle("다음", for: .normal)
-        buttonSettings.setTitleColor(.systemBlue, for: .normal)
+        buttonSettings.setTitleColor(.lightGray, for: .normal)
         buttonSettings.contentHorizontalAlignment = .center
+        buttonSettings.isUserInteractionEnabled = false
+        buttonSettings.addTarget(self, action: #selector(pressNextButton), for: .touchUpInside)
         buttonSettings.translatesAutoresizingMaskIntoConstraints = false
         return buttonSettings
     }()
+
+    
+   
     
     @IBAction func pressCancelButton(_ sender : UIButton) {
         self.dismiss(animated: true)
+    }
+    
+    @IBAction func pressNextButton(_ sender : UIButton) {
+        let view = LastViewController()
+        self.present(view, animated: true)
     }
     
     
@@ -91,6 +104,7 @@ class SecondViewController: UIViewController {
         // Do any additional setup after loading the view.
         view.backgroundColor = .white
         addObject()
+        
     }
     
     func addObject() {
@@ -125,6 +139,7 @@ class SecondViewController: UIViewController {
     
     func addTextView() {
         view.addSubview(intro)
+        intro.delegate = self
         intro.translatesAutoresizingMaskIntoConstraints = false
         intro.topAnchor.constraint(equalTo: profile.bottomAnchor, constant: 10).isActive = true
         intro.leadingAnchor.constraint(equalTo: profile.leadingAnchor).isActive = true
@@ -147,6 +162,32 @@ class SecondViewController: UIViewController {
         nextButton.leadingAnchor.constraint(equalTo: cancelButton.trailingAnchor).isActive = true
         nextButton.bottomAnchor.constraint(equalTo: cancelButton.bottomAnchor).isActive = true
         nextButton.trailingAnchor.constraint(equalTo: intro.trailingAnchor).isActive = true
+    }
+    
+    func CheckPw(_ pw1 : UITextField, _ pw2 : UITextField) -> Bool {
+        if pw1.text == pw2.text {
+            return true
+        }
+        return false
+    }
+    
+    @objc func DetectChange(_ sender : UITextField) {
+        if !(self.profilePw.text?.isEmpty ?? true)
+            && !(self.profileId.text?.isEmpty ?? true)
+        && !(self.ValidatedPw.text?.isEmpty ?? true)
+        && CheckPw(profilePw, ValidatedPw){
+            nextButton.setTitleColor(.systemBlue, for: .normal)
+            nextButton.isUserInteractionEnabled = true
+        }
+        else {
+            DisactivateButton()
+            
+        }
+    }
+    
+    func DisactivateButton() {
+        nextButton.setTitleColor(.lightGray, for: .normal)
+        nextButton.isUserInteractionEnabled = false
     }
     
     

@@ -54,8 +54,6 @@ class viewController: UIViewController {
     }()
     
     @IBAction func pressButton(_ sender : UIButton) {
-        //guard let viewController = storyboard?.instantiateViewController(identifier: "SecondViewController")
-        //else {return}
         let viewController = SecondViewController()
         viewController.modalPresentationStyle = UIModalPresentationStyle.fullScreen
         present(viewController, animated: true, completion: nil)
