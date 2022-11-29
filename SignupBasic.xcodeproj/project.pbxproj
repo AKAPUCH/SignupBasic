@@ -26,6 +26,7 @@
 		6EA92123292E47750006BEC0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6EA92129292E5C020006BEC0 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		6EE533F2293627D200A6C757 /* LastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastViewController.swift; sourceTree = "<group>"; };
+		6EE533F4293658BB00A6C757 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,6 +43,7 @@
 		6EA92109292E47740006BEC0 = {
 			isa = PBXGroup;
 			children = (
+				6EE533F4293658BB00A6C757 /* README.md */,
 				6EA92114292E47740006BEC0 /* SignupBasic */,
 				6EA92113292E47740006BEC0 /* Products */,
 			);
