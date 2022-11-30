@@ -7,8 +7,9 @@
 
 import UIKit
 
-class SecondViewController: UIViewController, UITextViewDelegate {
+class SecondViewController: UIViewController {
     
+    let picker = UIImagePickerController()
     
     let stacks : UIStackView = {
         let stackSettings = UIStackView()
@@ -21,10 +22,13 @@ class SecondViewController: UIViewController, UITextViewDelegate {
         return stackSettings
     }()
     
-    let profile : UIImageView = {
+    lazy var profile : UIImageView = {
         let imageSettings = UIImageView()
         imageSettings.image = UIImage(named: "rabbits")
         imageSettings.contentMode = .scaleToFill
+        let tap = UITapGestureRecognizer(target: self, action: #selector(addAction(_ :)))
+        imageSettings.addGestureRecognizer(tap)
+        imageSettings.isUserInteractionEnabled = true
         return imageSettings
     }()
     
@@ -57,7 +61,7 @@ class SecondViewController: UIViewController, UITextViewDelegate {
         return textSettings
     }()
     
-    let intro : UITextView = {
+    lazy var intro : UITextView = {
         let settings = UITextView()
         settings.textAlignment = .left
         settings.backgroundColor = .systemYellow
@@ -87,7 +91,19 @@ class SecondViewController: UIViewController, UITextViewDelegate {
     }()
 
     
-   
+    @objc func addAction(_ gesture : UITapGestureRecognizer) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let library = UIAlertAction(title: "앨범", style: .default) {
+            (action) in self.openLibrary()
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        alert.addAction(library)
+        alert.addAction(cancel)
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
     
     @IBAction func pressCancelButton(_ sender : UIButton) {
         self.dismiss(animated: true)
@@ -103,6 +119,8 @@ class SecondViewController: UIViewController, UITextViewDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         view.backgroundColor = .white
+        picker.delegate = self
+        intro.delegate = self
         addObject()
         
     }
@@ -139,7 +157,6 @@ class SecondViewController: UIViewController, UITextViewDelegate {
     
     func addTextView() {
         view.addSubview(intro)
-        intro.delegate = self
         intro.translatesAutoresizingMaskIntoConstraints = false
         intro.topAnchor.constraint(equalTo: profile.bottomAnchor, constant: 10).isActive = true
         intro.leadingAnchor.constraint(equalTo: profile.leadingAnchor).isActive = true
@@ -172,10 +189,15 @@ class SecondViewController: UIViewController, UITextViewDelegate {
     }
     
     @objc func DetectChange(_ sender : UITextField) {
+        clearProfile()
+    }
+    
+    func clearProfile() {
         if !(self.profilePw.text?.isEmpty ?? true)
             && !(self.profileId.text?.isEmpty ?? true)
         && !(self.ValidatedPw.text?.isEmpty ?? true)
-        && CheckPw(profilePw, ValidatedPw){
+        && CheckPw(profilePw, ValidatedPw)
+            && !(self.intro.text?.isEmpty ?? true){
             nextButton.setTitleColor(.systemBlue, for: .normal)
             nextButton.isUserInteractionEnabled = true
         }
@@ -185,21 +207,45 @@ class SecondViewController: UIViewController, UITextViewDelegate {
         }
     }
     
+    
     func DisactivateButton() {
         nextButton.setTitleColor(.lightGray, for: .normal)
         nextButton.isUserInteractionEnabled = false
     }
     
+    func openLibrary() {
+        picker.sourceType = .photoLibrary
+        present(picker, animated: false, completion: nil)
+    }
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
+    
+}
+
+extension SecondViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate,UITextViewDelegate
+, UITextFieldDelegate{
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            profile.image = image
+            //print(info)
+        }
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+       clearProfile()
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        clearProfile()
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        clearProfile()
+    }
+    
+    
     
     
 }
