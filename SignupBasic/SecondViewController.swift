@@ -92,16 +92,17 @@ class SecondViewController: UIViewController {
 
     
     @objc func addAction(_ gesture : UITapGestureRecognizer) {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let library = UIAlertAction(title: "앨범", style: .default) {
-            (action) in self.openLibrary()
-        }
-        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        
-        alert.addAction(library)
-        alert.addAction(cancel)
-        
-        present(alert, animated: true, completion: nil)
+        //let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+//        let library = UIAlertAction(title: "앨범", style: .default) {
+//            (action) in self.openLibrary()
+//        }
+//        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+//
+//        alert.addAction(library)
+//        alert.addAction(cancel)
+//
+//        present(alert, animated: true, completion: nil)
+        openLibrary()
     }
     
     
@@ -111,6 +112,7 @@ class SecondViewController: UIViewController {
     
     @IBAction func pressNextButton(_ sender : UIButton) {
         let view = LastViewController()
+        view.modalPresentationStyle = .fullScreen
         self.present(view, animated: true)
     }
     
@@ -197,7 +199,8 @@ class SecondViewController: UIViewController {
             && !(self.profileId.text?.isEmpty ?? true)
         && !(self.ValidatedPw.text?.isEmpty ?? true)
         && CheckPw(profilePw, ValidatedPw)
-            && !(self.intro.text?.isEmpty ?? true){
+            && !(self.intro.text?.isEmpty ?? true)
+            && (self.profile.image != UIImage(named: "rabbits") ){
             nextButton.setTitleColor(.systemBlue, for: .normal)
             nextButton.isUserInteractionEnabled = true
         }
@@ -215,7 +218,8 @@ class SecondViewController: UIViewController {
     
     func openLibrary() {
         picker.sourceType = .photoLibrary
-        present(picker, animated: false, completion: nil)
+        picker.modalPresentationStyle = .fullScreen
+        present(picker, animated: true, completion: nil)
     }
     
     
@@ -229,9 +233,10 @@ extension SecondViewController : UIImagePickerControllerDelegate, UINavigationCo
             profile.image = image
             //print(info)
         }
-        
+        clearProfile()
         dismiss(animated: true, completion: nil)
     }
+    
     
     func textViewDidBeginEditing(_ textView: UITextView) {
        clearProfile()
