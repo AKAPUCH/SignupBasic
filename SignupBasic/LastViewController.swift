@@ -30,7 +30,7 @@ class LastViewController: UIViewController {
        let labelSettings = UILabel()
         labelSettings.font = .systemFont(ofSize: 15)
         labelSettings.text = "테스트"
-        labelSettings.textAlignment = .center
+        labelSettings.textAlignment = .right
         labelSettings.translatesAutoresizingMaskIntoConstraints = false
         return labelSettings
     }()
@@ -45,7 +45,10 @@ class LastViewController: UIViewController {
     let picker : UIDatePicker = {
         let pickerSettings = UIDatePicker()
         pickerSettings.translatesAutoresizingMaskIntoConstraints = false
-
+        pickerSettings.preferredDatePickerStyle = .wheels
+        pickerSettings.datePickerMode = .date
+        pickerSettings.addTarget(self, action: #selector(setBirth(_: )), for: .valueChanged)
+        pickerSettings.locale = Locale(identifier: "en_US")
         return pickerSettings
     }()
 
@@ -53,6 +56,7 @@ class LastViewController: UIViewController {
        let btnSettings = UIButton()
         btnSettings.setTitle("취소", for: .normal)
         btnSettings.setTitleColor(.systemRed, for: .normal)
+        btnSettings.addTarget(self, action: #selector(rollBack), for: .touchUpInside)
         btnSettings.translatesAutoresizingMaskIntoConstraints = false
         return btnSettings
     }()
@@ -61,6 +65,7 @@ class LastViewController: UIViewController {
        let btnSettings = UIButton()
         btnSettings.setTitle("이전", for: .normal)
         btnSettings.setTitleColor(.systemBlue, for: .normal)
+        btnSettings.addTarget(self, action: #selector(goBack), for: .touchUpInside)
         btnSettings.translatesAutoresizingMaskIntoConstraints = false
         return btnSettings
     }()
@@ -71,6 +76,7 @@ class LastViewController: UIViewController {
         btnSettings.setTitleColor(.systemGray, for: .disabled)
         btnSettings.setTitleColor(.systemBlue, for: .normal)
         btnSettings.isEnabled = false
+        btnSettings.addTarget(self, action: #selector(finishSignup(_ :)), for: .touchUpInside)
         btnSettings.translatesAutoresizingMaskIntoConstraints = false
         return btnSettings
     }()
@@ -85,6 +91,7 @@ class LastViewController: UIViewController {
     
     override func viewDidLoad() {
         view.backgroundColor = .white
+        pnText.delegate = self
         super.viewDidLoad()
         addObject()
         addLayout()
@@ -111,7 +118,7 @@ class LastViewController: UIViewController {
             birth.heightAnchor.constraint(equalToConstant: 15),
             trackingBirth.topAnchor.constraint(equalTo: birth.topAnchor),
             trackingBirth.trailingAnchor.constraint(equalTo: pnText.trailingAnchor),
-            trackingBirth.leadingAnchor.constraint(equalTo: birth.trailingAnchor, constant: 150),
+            trackingBirth.leadingAnchor.constraint(equalTo: birth.trailingAnchor, constant: 50),
             trackingBirth.heightAnchor.constraint(equalToConstant: 15),
             picker.topAnchor.constraint(equalTo: birth.bottomAnchor,constant: 10),
             picker.leadingAnchor.constraint(equalTo: pnText.leadingAnchor),
@@ -124,6 +131,30 @@ class LastViewController: UIViewController {
         ])
     }
     
+    @objc func finishSignup(_ sender : UIButton) {
+        self.dismiss(animated: true, completion: nil)
+        let view = viewController()
+        self.present(view, animated: true, completion: nil)
+    }
+    
+    @IBAction func rollBack(_ sender : UIButton) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func goBack(_ sender : UIButton) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func setBirth(_ sender : UIDatePicker) {
+        let myDate = DateFormatter()
+        myDate.locale = Locale(identifier: "en_US")
+        myDate.dateStyle = .long
+        myDate.timeStyle = .none
+        let myBirth = myDate.string(from: sender.date)
+        trackingBirth.text = myBirth
+    }
+    
+    
 
     /*
     // MARK: - Navigation
@@ -135,6 +166,31 @@ class LastViewController: UIViewController {
     }
     */
 
+}
+
+extension LastViewController : UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if !(textField.text?.isEmpty ?? true) {
+            joinButton.isEnabled = true
+            return
+        }
+        joinButton.isEnabled = false
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if !(textField.text?.isEmpty ?? true) {
+            joinButton.isEnabled = true
+            return
+        }
+        joinButton.isEnabled = false
+    }
+    
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        if !(textField.text?.isEmpty ?? true) {
+            joinButton.isEnabled = true
+            return
+        }
+        joinButton.isEnabled = false
+    }
 }
 
 extension UIView {
