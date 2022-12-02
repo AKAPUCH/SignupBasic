@@ -9,6 +9,9 @@ import UIKit
 
 class LastViewController: UIViewController {
 
+    var sendingProtocol : SendDataDelegate2?
+    
+    var receivedData : String = ""
     
     let phoneNum : UILabel = {
        let labelSettings = UILabel()
@@ -92,10 +95,13 @@ class LastViewController: UIViewController {
     override func viewDidLoad() {
         view.backgroundColor = .white
         pnText.delegate = self
+        let viewController = SecondViewController()
+        viewController.sending = self
         super.viewDidLoad()
         addObject()
         addLayout()
     }
+    
     
     func addObject() {
         stack.addArrangedSubviews([cancelButton,previousButton,joinButton])
@@ -132,13 +138,17 @@ class LastViewController: UIViewController {
     }
     
     @objc func finishSignup(_ sender : UIButton) {
-        self.dismiss(animated: true, completion: nil)
-        let view = viewController()
-        self.present(view, animated: true, completion: nil)
+        sendingProtocol?.sendData(data: receivedData)
+        let views = viewController()
+        views.modalPresentationStyle = .fullScreen
+        self.present(views, animated: true)
     }
     
     @IBAction func rollBack(_ sender : UIButton) {
-        self.dismiss(animated: true, completion: nil)
+        let views = viewController()
+        views.modalPresentationStyle = .fullScreen
+        self.present(views, animated: true)
+        
     }
     
     @IBAction func goBack(_ sender : UIButton) {
@@ -168,7 +178,7 @@ class LastViewController: UIViewController {
 
 }
 
-extension LastViewController : UITextFieldDelegate {
+extension LastViewController : UITextFieldDelegate, SendDataDelegate1 {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if !(textField.text?.isEmpty ?? true) {
             joinButton.isEnabled = true
@@ -191,6 +201,11 @@ extension LastViewController : UITextFieldDelegate {
         }
         joinButton.isEnabled = false
     }
+    
+    func sendData(data: String) {
+        print(2)
+        receivedData = data
+    }
 }
 
 extension UIView {
@@ -207,4 +222,8 @@ extension UIStackView {
             self.addArrangedSubview(view)
         }
     }
+}
+
+protocol SendDataDelegate2 {
+    func sendData(data : String)
 }

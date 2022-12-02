@@ -64,6 +64,8 @@ class viewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemYellow
+        let infoView = LastViewController()
+        infoView.sendingProtocol = self
         addObject()
     }
     
@@ -113,4 +115,12 @@ class viewController: UIViewController {
     
     
 }
+
+extension viewController : SendDataDelegate2 {
+    func sendData(data: String) {
+        print(1)
+        idText.text = data
+    }
+}
+
 

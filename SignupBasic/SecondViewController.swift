@@ -9,6 +9,8 @@ import UIKit
 
 class SecondViewController: UIViewController {
     
+    var sending : SendDataDelegate1?
+    
     let picker = UIImagePickerController()
     
     let stacks : UIStackView = {
@@ -111,6 +113,7 @@ class SecondViewController: UIViewController {
     }
     
     @IBAction func pressNextButton(_ sender : UIButton) {
+        sending?.sendData(data: profileId.text!)
         let view = LastViewController()
         view.modalPresentationStyle = .fullScreen
         self.present(view, animated: true)
@@ -253,4 +256,8 @@ extension SecondViewController : UIImagePickerControllerDelegate, UINavigationCo
     
     
     
+}
+
+protocol SendDataDelegate1 {
+    func sendData(data : String)
 }
