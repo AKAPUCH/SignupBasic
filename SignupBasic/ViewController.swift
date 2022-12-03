@@ -12,7 +12,9 @@ import UIKit
 
 class viewController: UIViewController {
     
-    let idText : UITextField = {
+    let userInformation : UserInfomation = UserInfomation.shared
+    
+    var idText : UITextField = {
         let idSettings = UITextField()
         idSettings.placeholder = "ID"
         idSettings.textAlignment = .left
@@ -64,9 +66,10 @@ class viewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemYellow
-        let infoView = LastViewController()
-        infoView.sendingProtocol = self
         addObject()
+        if userInformation.getUserId() != "" {
+            idText.text = userInformation.getUserId()
+        }
     }
     
     func addObject() {
@@ -104,7 +107,6 @@ class viewController: UIViewController {
         signInButton.translatesAutoresizingMaskIntoConstraints = false
         signInButton.topAnchor.constraint(equalTo: pwText.bottomAnchor, constant: 20).isActive = true
         signInButton.leadingAnchor.constraint(equalTo: pwText.leadingAnchor, constant: 20).isActive = true
-        //signUpButton.translatesAutoresizingMaskIntoConstraints = false
         signUpButton.topAnchor.constraint(equalTo: pwText.bottomAnchor, constant: 20).isActive = true
         signUpButton.leadingAnchor.constraint(equalTo: signInButton.trailingAnchor, constant: 30).isActive = true
         signUpButton.trailingAnchor.constraint(equalTo: pwText.trailingAnchor, constant: 20).isActive = true
@@ -116,11 +118,5 @@ class viewController: UIViewController {
     
 }
 
-extension viewController : SendDataDelegate2 {
-    func sendData(data: String) {
-        print(1)
-        idText.text = data
-    }
-}
 
 

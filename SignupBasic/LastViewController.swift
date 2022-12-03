@@ -9,9 +9,7 @@ import UIKit
 
 class LastViewController: UIViewController {
 
-    var sendingProtocol : SendDataDelegate2?
-    
-    var receivedData : String = ""
+    var userInfomation : UserInfomation = UserInfomation.shared
     
     let phoneNum : UILabel = {
        let labelSettings = UILabel()
@@ -96,10 +94,17 @@ class LastViewController: UIViewController {
         view.backgroundColor = .white
         pnText.delegate = self
         let viewController = SecondViewController()
-        viewController.sending = self
         super.viewDidLoad()
         addObject()
         addLayout()
+    }
+    
+    func savedProfile() {
+        guard let phonenum = pnText.text else {return}
+        guard let yearmonthdate = trackingBirth.text else {return}
+        
+        userInfomation.registUserPhone(phone: phonenum)
+        userInfomation.registUserBirth(birth: yearmonthdate)
     }
     
     
@@ -138,7 +143,7 @@ class LastViewController: UIViewController {
     }
     
     @objc func finishSignup(_ sender : UIButton) {
-        sendingProtocol?.sendData(data: receivedData)
+        savedProfile()
         let views = viewController()
         views.modalPresentationStyle = .fullScreen
         self.present(views, animated: true)
@@ -178,7 +183,7 @@ class LastViewController: UIViewController {
 
 }
 
-extension LastViewController : UITextFieldDelegate, SendDataDelegate1 {
+extension LastViewController : UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if !(textField.text?.isEmpty ?? true) {
             joinButton.isEnabled = true
@@ -202,28 +207,21 @@ extension LastViewController : UITextFieldDelegate, SendDataDelegate1 {
         joinButton.isEnabled = false
     }
     
-    func sendData(data: String) {
-        print(2)
-        receivedData = data
-    }
 }
-
-extension UIView {
-    func addSubviews(_ views : [UIView]) {
-        for view in views {
-            self.addSubview(view)
+    extension UIView {
+        func addSubviews(_ views : [UIView]) {
+            for view in views {
+                self.addSubview(view)
+            }
         }
     }
-}
-
-extension UIStackView {
-    func addArrangedSubviews(_ views : [UIView]){
-        for view in views {
-            self.addArrangedSubview(view)
+    
+    extension UIStackView {
+        func addArrangedSubviews(_ views : [UIView]){
+            for view in views {
+                self.addArrangedSubview(view)
+            }
         }
     }
-}
+    
 
-protocol SendDataDelegate2 {
-    func sendData(data : String)
-}

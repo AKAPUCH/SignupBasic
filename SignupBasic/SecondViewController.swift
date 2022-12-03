@@ -9,7 +9,7 @@ import UIKit
 
 class SecondViewController: UIViewController {
     
-    var sending : SendDataDelegate1?
+    var userInfomation : UserInfomation = UserInfomation.shared
     
     let picker = UIImagePickerController()
     
@@ -94,16 +94,6 @@ class SecondViewController: UIViewController {
 
     
     @objc func addAction(_ gesture : UITapGestureRecognizer) {
-        //let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-//        let library = UIAlertAction(title: "앨범", style: .default) {
-//            (action) in self.openLibrary()
-//        }
-//        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-//
-//        alert.addAction(library)
-//        alert.addAction(cancel)
-//
-//        present(alert, animated: true, completion: nil)
         openLibrary()
     }
     
@@ -113,12 +103,22 @@ class SecondViewController: UIViewController {
     }
     
     @IBAction func pressNextButton(_ sender : UIButton) {
-        sending?.sendData(data: profileId.text!)
+        saveProfile()
         let view = LastViewController()
         view.modalPresentationStyle = .fullScreen
         self.present(view, animated: true)
     }
     
+    func saveProfile() {
+        guard let savedId = profileId.text else{return}
+        guard let savedPw = profilePw.text else{return}
+        guard let savedImage = profile.image else{return}
+        guard let savedIntro = intro.text else{return}
+        userInfomation.registUserId(id: savedId)
+        userInfomation.registUserPwd(password: savedPw)
+        userInfomation.registUserProfile(profile: savedImage)
+        userInfomation.registUserIntroduce(introduce: savedIntro)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -258,6 +258,3 @@ extension SecondViewController : UIImagePickerControllerDelegate, UINavigationCo
     
 }
 
-protocol SendDataDelegate1 {
-    func sendData(data : String)
-}
