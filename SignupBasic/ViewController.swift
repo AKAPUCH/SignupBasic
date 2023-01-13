@@ -114,7 +114,7 @@ class viewController: UIViewController {
     
     
     
-    
+    //이번에는 delegate 패턴으로 화면간 데이터 전달
     
 }
 
